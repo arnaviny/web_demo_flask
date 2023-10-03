@@ -1,16 +1,11 @@
 from flask import Blueprint, render_template, jsonify
-from models import Book  # אני מניח שיש לך מודל של ספר בפרויקט
+from models import Book
 
 index_bp = Blueprint('index', __name__)
 
 @index_bp.route('/')
 def home():
-    return "Hello, World!"
-
-@index_bp.route('/books', methods=['GET'])
-def get_books():
-    books = Book.query.all()  # אני מניח שהמודל שלך משתמש ב-SQLAlchemy
-    return jsonify([book.to_dict() for book in books])
+    return render_template('index.html')
 
 @index_bp.route('/bestbook', methods=['GET'])
 def get_best_rated_book():

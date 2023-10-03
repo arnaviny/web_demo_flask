@@ -7,23 +7,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Star Wars Book'S</h1>
-        <nav>
-            <h2>
-                <ul>
-                    <li><a href="{{ url_for('index.index') }}">Home</a></li>
-                    <!-- ... כאן יהיו הקישורים האחרים ... -->
-                </ul>
-            </h2>
-        </nav>
-    </header>
-    <ul><h2>Best Rated Book:</h2>
-    <div id="bestBookContainer"></div>
+    <script>
+        // Fetch the best rated book
+        function fetchBestRatedBook() {
+            fetch('/bestbook')
+                .then(response => response.json())
+                .then(data => {
+                    const bestBookContainer = document.getElementById('bestBookContainer');
+                    bestBookContainer.innerHTML = `<h3>${data.title}</h3><p>Rating: ${data.rating}</p>`;
+                });
+        }
 
-    <h2>All Books in Stock:</h2>
-    <div id="bookContainer"></div>
-</body>
+        // Fetch all books in stock
+        function fetchAllBooks() {
+            fetch('/books')
+                .then(response => response.json())
+                .then(data => {
+                    const bookContainer = document.getElementById('bookContainer');
+                    data.forEach(book => {
+                        bookContainer.innerHTML += `<h3>${book.title}</h3><p>Rating: ${book.rating}</p>`;
+                    });
+                });
+        }
+
+        // Call the functions when the page loads
+        window.onload = function() {
+            fetchBestRatedBook();
+            fetchAllBooks();
+        }
+    </script>
+</head>
+    <body>
+        <header>
+            <h1>Star Wars Book'S</h1>
+            <nav>
+                <h2>
+                    <ul>
+                        <li><a href="{{ url_for('index.home') }}">Home</a></li>
+                        <li><a href="{{ url_for('books.get_all_books') }}">All Books</a></li>
+                        <li><a href="{{ url_for('categories.get_categories') }}">Categories</a></li>
+                        <!-- ... כאן יהיו הקישורים האחרים ... -->
+                    </ul>
+                </h2>
+            </nav>
+        </header>
+        <ul><h2>Best Rated Book:</h2></ul>
+        <div id="bestBookContainer"></div>
+
+        <h2>All Books in Stock:</h2>
+        <div id="bookContainer"></div>
+    </body>
 </html>
