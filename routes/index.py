@@ -1,9 +1,11 @@
-# routes/index.py
-
 from flask import Blueprint, render_template, jsonify
 from models import Book  # אני מניח שיש לך מודל של ספר בפרויקט
 
 index_bp = Blueprint('index', __name__)
+
+@index_bp.route('/')
+def home():
+    return "Hello, World!"
 
 @index_bp.route('/books', methods=['GET'])
 def get_books():
